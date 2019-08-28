@@ -34,5 +34,13 @@ export const state = {
       height: 20,
       fill: '#0095ee'
     }
+  },
+  breaks: [],
+  breaksAttr: {
+    width: 90,
+    height: 20,
+    offsetX: 15,
+    offsetY: 15,
+    isStatus: true
   }
 }
