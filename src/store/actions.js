@@ -8,5 +8,4 @@ export const actions = {
 
   setBallPos: ({ commit }, pos) => commit(types.SET_BALL_POS, pos),
   setPaddlePos: ({ commit }, pos) => commit(types.SET_PADDLE_POS, pos),
-  setBreaksProj: ({ commit }, num) => commit(types.SET_BREAKS_PROJ, num)
 }

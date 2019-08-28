@@ -29,8 +29,8 @@ export default {
     anim: '',
     isAnimStart: false,
     ballAttr: {
-      dx: 3,
-      dy: 3
+      dx: 4,
+      dy: 4
     },
     paddleAttr: {
       isPaddleMoveable: false,
@@ -68,7 +68,6 @@ export default {
       'setBallPos',
       'setPaddlePos',
       'initBreaks',
-      'setBreaksProj'
     ]),
     mainCicle (frame) {
       let x = this.ball.config.x + this.ballAttr.dx
@@ -102,27 +101,38 @@ export default {
       let ball = this.ball.config
       this.breaks.forEach((row, colIndex) => {
         row.forEach((item, rowIndex) => {
-          if ((ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + item.width) ||
-              (ball.x - ball.radius <= item.x + item.width && ball.x - ball.radius >= item.x)) {
-            item.collisionDirectionChange === 'y' ? this.setBreaksProj([colIndex, rowIndex, 'xP', true, 'y']) : this.setBreaksProj([colIndex, rowIndex, 'xP', true, 'x'])
-            if (ball.x + ball.radius <= item.x || ball.x - ball.radius >= item.x + item.width) {
-              this.setBreaksProj([colIndex, rowIndex, 'xP', false, ''])
+          // if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + Math.abs(this.ballAttr.dx)) {
+          //   if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + item.height) {
+          //     this.ballAttr.dx = -this.ballAttr.dx
+          //   }
+          // }
+          // if (ball.x - ball.radius <= item.x + item.width && ball.x - ball.radius >= item.x + item.width - Math.abs(this.ballAttr.dx)) {
+          //   if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + item.height) {
+          //     this.ballAttr.dx = -this.ballAttr.dx
+          //   }
+          // }
+          // if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + Math.abs(this.ballAttr.dy)) {
+          //   if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + item.width) {
+          //     this.ballAttr.dy = -this.ballAttr.dx
+          //   }
+          // }
+          if (ball.y - ball.radius <= item.y + item.height && ball.y - ball.radius >= item.y + item.height - Math.abs(this.ballAttr.dy)) {
+            if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + item.width) {
+              this.ballAttr.dy = -this.ballAttr.dx
             }
           }
-          if ((ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + item.height) ||
-              (ball.y - ball.radius >= item.y + item.height && ball.y - ball.radius <= item.y)) {
-            item.collisionDirectionChange === 'x' ? this.setBreaksProj([colIndex, rowIndex, 'xP', true, 'x']) : this.setBreaksProj([colIndex, rowIndex, 'xP', true, 'y'])
-            if (ball.y + ball.radius <= item.y || ball.y - ball.radius >= item.y + item.height) {
-              this.setBreaksProj([colIndex, rowIndex, 'yP', false, ''])
-            }
-          }
-          if (item.yP && item.xP) {
-            console.log(item.xP, item.yP)
-
-            item.collisionDirectionChange === 'x' ? this.breaksCollisionX() : this.breaksCollisionY()
-          }
-          this.setBreaksProj([colIndex, rowIndex, 'xP', false, ''])
-          this.setBreaksProj([colIndex, rowIndex, 'yP', false, ''])
+          // if (ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
+          //   // if (ball.y - ball.radius >= item.y + item.height && ball.y + ball.radius <= item.y) {
+          //     console.log ('dy')
+          //     this.ballAttr.dy = -this.ballAttr.dy
+          //   // }
+          // }
+          // // if (ball.y + ball.radius >= item.y && ball.y - ball.radius < item.y + item.height) {
+          //   if (ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width){
+          //     console.log ('dx')
+          //     this.ballAttr.dx = -this.ballAttr.dx
+          //   }
+          // }
         })
       })
     },
@@ -143,6 +153,9 @@ export default {
         this.isAnimStart = true
         document.addEventListener('keydown', this.hKeyDown)
         document.addEventListener('keyup', this.hKeyUp)
+      }
+      if (e.code === 'KeyT') {
+        console.log(this.breaks[0][0].direction)
       }
     },
     hKeyDown (e) {

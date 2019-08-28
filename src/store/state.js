@@ -37,9 +37,9 @@ export const state = {
   },
   breaks: [],
   breaksAttr: {
-    width: 90,
-    height: 20,
-    offsetX: 15,
+    width: 680,
+    height: 180,
+    offsetX: 105,
     offsetY: 15,
     isStatus: true
   }
