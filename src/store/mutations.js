@@ -27,7 +27,6 @@ export const mutations = {
     let paddingY = state.breaksAttr.offsetY
     state.game.startBreaksCount = rowsCount * columnsCount
     let color = '#'
-    console.log(color)
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
       color = '#'

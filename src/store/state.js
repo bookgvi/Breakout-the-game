@@ -1,4 +1,4 @@
-const offsetX = 300
+const offsetX = 0
 const offsetY = 10
 export const state = {
   game: {
@@ -12,7 +12,8 @@ export const state = {
     config: {
       x: 0,
       y: 0,
-      width: document.documentElement.clientWidth - 2 * offsetX,
+      width: document.documentElement.clientWidth,
+      widt: document.documentElement.clientWidth * 2 / 3 - 2 * offsetX,
       height: document.documentElement.clientHeight - 2 * offsetY
     }
   },

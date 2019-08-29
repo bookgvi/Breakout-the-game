@@ -8,9 +8,6 @@
         :config="{ opacity: game.layersOpacity }"
       >
         <v-line :config="border" />
-        <v-text
-          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
-        />
         <breaks
           v-for="(col, index) in breaks"
           :key="index"
@@ -18,6 +15,10 @@
         />
         <ball/>
         <paddle/>
+        <game-info
+          :score="score"
+          :width="stage.width"
+        />
       </v-layer>
       <v-layer
         :config="{
@@ -36,6 +37,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Ball from '@/components/Ball'
 import Paddle from '@/components/Paddle'
 import Breaks from '@/components/Breaks'
+import GameInfo from '@/components/GameInfo'
 export default {
   data: () => ({
     anim: '',
@@ -65,7 +67,8 @@ export default {
   components: {
     Ball,
     Paddle,
-    Breaks
+    Breaks,
+    GameInfo
   },
   computed: {
     ...mapGetters([
