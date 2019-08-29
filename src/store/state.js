@@ -4,7 +4,8 @@ export const state = {
   game: {
     score: 0,
     startBreaksCount: 0,
-    endBreaksCount: 0
+    endBreaksCount: 0,
+    lowestY: 0
   },
   stage: {
     config: {
@@ -43,9 +44,9 @@ export const state = {
   breaks: [],
   breaksAttr: {
     rows: 3,
-    width: 680,
+    width: 180,
     height: 20,
     offsetX: 35,
-    offsetY: 30,
+    offsetY: 30
   }
 }

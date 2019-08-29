@@ -19,6 +19,9 @@
         <v-text
           :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
         />
+        <v-text
+          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
+        />
       </v-layer>
     </v-stage>
   </div>
@@ -34,8 +37,8 @@ export default {
     anim: '',
     isAnimStart: false,
     ballAttr: {
-      dx: 6,
-      dy: 6
+      dx: 4,
+      dy: 4
     },
     paddleAttr: {
       isPaddleMoveable: false,
@@ -109,20 +112,21 @@ export default {
       // ...................................... Отскок слева и справа от игрового поля
       if (ball.x + ball.radius >= stage.width + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
         this.ballAttr.dx = -this.ballAttr.dx
-      } else if  (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
-        this.anim.stop()
+      } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
+        document.removeEventListener('keypress', this.hPause)
+        this.stopGame()
         console.log('Неудача')
-        // ...................................... Отскок сверху от игрового поля
-      } else if (ball.y - ball.radius <= stage.y) { // ||
+        // .....................................................................................
+      } else if (ball.y - ball.radius <= stage.y) {
         this.ballAttr.dy = -this.ballAttr.dy
       } else if (ball.y + ball.radius >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width / 4) {
         this.ballAttr.dy = -this.ballAttr.dy
-        this.ballAttr.dx = -Math.abs(this.ballAttr.dx)
+        this.ballAttr.dx = -Math.abs(this.ballAttr.dx - 2)
       } else if (ball.y + ball.radius >= paddle.y && ball.x > paddle.x + paddle.width / 4 && ball.x <= paddle.x + paddle.width * 3 / 4) {
         this.ballAttr.dy = -this.ballAttr.dy
       } else if (ball.y + ball.radius >= paddle.y && ball.x > paddle.x + paddle.width * 3 / 4 && ball.x <= paddle.x + paddle.width) {
         this.ballAttr.dy = -this.ballAttr.dy
-        this.ballAttr.dx = Math.abs(this.ballAttr.dx)
+        this.ballAttr.dx = Math.abs(this.ballAttr.dx + 2)
       }
     },
     hasBallWithBreaksCollision () {
@@ -162,6 +166,11 @@ export default {
       })
     },
     hasBreaksPos (delta) {
+      if (this.game.lowestY >= this.paddle.config.y) {
+        document.removeEventListener('keypress', this.hPause)
+        this.stopGame()
+        console.log('Неудача')
+      }
       this.setBreaksPos(delta)
     },
     breaksCollisionX (item) {

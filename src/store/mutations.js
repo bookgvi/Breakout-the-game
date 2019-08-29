@@ -51,6 +51,7 @@ export const mutations = {
       row.forEach((item, rowIndex) => {
         // eslint-disable-next-line no-unused-expressions
         item.isInGame ? item.y += delta : ''
+        state.game.lowestY = Math.max(state.game.lowestY, item.y)
       })
     })
   },
