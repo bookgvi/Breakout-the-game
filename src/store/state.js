@@ -22,7 +22,7 @@ export const state = {
     config: {
       x: 0,
       y: 0,
-      radius: 10,
+      radius: 5,
       fill: '#0095ee'
     }
   },
@@ -37,6 +37,7 @@ export const state = {
   },
   breaks: [],
   breaksAttr: {
+    rows: 3,
     width: 80,
     height: 20,
     offsetX: 35,

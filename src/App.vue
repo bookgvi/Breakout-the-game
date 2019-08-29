@@ -29,12 +29,15 @@ export default {
     anim: '',
     isAnimStart: false,
     ballAttr: {
-      dx: 1,
-      dy: 1
+      dx: 5,
+      dy: 5
     },
     paddleAttr: {
       isPaddleMoveable: false,
       dx: 0
+    },
+    breaksAttrib: {
+      dy: 0.15
     }
   }),
   created () {
@@ -68,19 +71,19 @@ export default {
       'setBallPos',
       'setPaddlePos',
       'initBreaks',
-      'breaksProjX',
-      'breaksProjY',
-      'setXreverse',
-      'setYreverse'
+      'setBreaksPos',
+      'breakOut'
     ]),
     mainCicle (frame) {
-      let x = this.ball.config.x + this.ballAttr.dx
-      let y = this.ball.config.y + this.ballAttr.dy
-      this.setBallPos({ x, y })
-      let px = this.paddle.config.x + this.paddleAttr.dx
-      px = Math.max(px, this.stage.x + this.border.strokeWidth)
-      px = Math.min(px, this.stage.width - this.stage.x - this.border.strokeWidth - this.paddle.config.width)
-      this.setPaddlePos(px)
+      let breaksY = this.breaksAttrib.dy
+      let ballX = this.ball.config.x + this.ballAttr.dx
+      let ballY = this.ball.config.y + this.ballAttr.dy
+      let paddleX = this.paddle.config.x + this.paddleAttr.dx
+      paddleX = Math.max(paddleX, this.stage.x + this.border.strokeWidth)
+      paddleX = Math.min(paddleX, this.stage.width - this.stage.x - this.border.strokeWidth - this.paddle.config.width)
+      this.setBallPos({ x: ballX, y: ballY })
+      this.hasBreaksPos(breaksY)
+      this.setPaddlePos(paddleX)
       this.isBallCollision()
       this.hasBallWithBreaksCollision()
     },
@@ -89,9 +92,11 @@ export default {
       let stage = this.stage
       let border = this.border
       let paddle = this.paddle.config
+      // ...................................... Отскок слева и справа от игрового поля
       if (ball.x + ball.radius >= stage.width + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
         this.ballAttr.dx = -this.ballAttr.dx
-      } else if (ball.y - ball.radius <= stage.y || ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) {
+        // ...................................... Отскок сверху от игрового поля
+      } else if (ball.y - ball.radius <= stage.y) { // || ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - Отскок снизу
         this.ballAttr.dy = -this.ballAttr.dy
       } else if (ball.y + ball.radius >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width / 4) {
         this.ballAttr.dy = -this.ballAttr.dy
@@ -119,39 +124,35 @@ export default {
             ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
             this.setBallPos({ x: ball.x, y: ballUpY - ball.radius })
             // ... Отскок вдоль оси Y сверху блока
-            this.breaksCollisionY()
-            console.log('item.y = ', item.y)
-            console.log('Ball Y (Up) ', ballUpY)
-
+            this.breaksCollisionY([colIndex, rowIndex])
           } else if (ball.y - ball.radius <= item.y + item.height && ball.y - ball.radius > item.y + item.height - Math.abs(this.ballAttr.dy) &&
             ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
             this.setBallPos({ x: ball.x, y: ballDownY + ball.radius })
             // ... Отскок вдоль оси Y снизу блока
-            this.breaksCollisionY()
-            console.log('item.y = ', item.y)
-            console.log('Ball Y (Down) ', ballDownY)
-
-            console.log('Down ', ball.y)
+            this.breaksCollisionY([colIndex, rowIndex])
           } else if (ball.x + ball.radius >= item.x && ball.x + ball.radius < item.x + Math.abs(this.ballAttr.dx) &&
             ball.y - ball.radius <= item.y + item.height && ball.y + ball.radius >= item.y) {
             this.setBallPos({ x: ballLeftX - ball.radius, y: ball.y })
             // ... Отскок вдоль оси Х слева блока
-            this.breaksCollisionX()
-            console.log('Left ', ball.x)
+            this.breaksCollisionX([colIndex, rowIndex])
           } else if (ball.x - ball.radius <= item.x + item.width && ball.x - ball.radius > item.x + item.width - Math.abs(this.ballAttr.dx) &&
             ball.y - ball.radius <= item.y + item.height && ball.y + ball.radius >= item.y) {
             this.setBallPos({ x: ballRightX + ball.radius, y: ball.y })
             // ... Отскок вдоль оси Х справа блока
-            this.breaksCollisionX()
-            console.log('Right ', ball.x)
+            this.breaksCollisionX([colIndex, rowIndex])
           }
         })
       })
     },
-    breaksCollisionX () {
+    hasBreaksPos (delta) {
+      this.setBreaksPos(delta)
+    },
+    breaksCollisionX (item) {
+      this.breakOut(item)
       this.ballAttr.dx = -this.ballAttr.dx
     },
-    breaksCollisionY () {
+    breaksCollisionY (item) {
+      this.breakOut(item)
       this.ballAttr.dy = -this.ballAttr.dy
     },
     hPause (e) {

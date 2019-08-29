@@ -6,7 +6,6 @@ export const INIT_BREAKS = 'INIT_BREAKS'
 
 export const SET_BALL_POS = 'SET_BALL_POS'
 export const SET_PADDLE_POS = 'SET_PADDLE_POS'
-export const BREAKS_PROJ_X = 'BREAKS_PROJ_X'
-export const BREAKS_PROJ_Y = 'BREAKS_PROJ_Y'
-export const SET_X_REVERSE = 'SET_X_REVERSE'
-export const SET_Y_REVERSE = 'SET_Y_REVERSE'
+export const SET_BREAKS_POS = 'SET_BREAKS_POS'
+
+export const BREAK_OUT = 'BREAK_OUT'

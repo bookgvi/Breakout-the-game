@@ -14,7 +14,7 @@ export const mutations = {
   },
   [types.INIT_BALL]: state => {
     state.ball.config.x = state.stage.config.x + state.ball.config.radius + 10
-    state.ball.config.y = state.stage.config.y + state.ball.config.radius + 10
+    state.ball.config.y = state.stage.config.y + state.ball.config.radius + state.breaksAttr.rows * (state.breaksAttr.height + state.breaksAttr.offsetY) + 20
   },
   [types.INIT_PADDLE]: state => {
     state.paddle.config.x = (state.stage.config.width - state.stage.config.x) / 2 - state.paddle.config.width / 2
@@ -22,7 +22,7 @@ export const mutations = {
   },
   [types.INIT_BREAKS]: state => {
     let columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
-    let rowsCount = 2
+    let rowsCount = state.breaksAttr.rows
     let padding = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
@@ -45,19 +45,17 @@ export const mutations = {
     state.ball.config.x = pos.x
     state.ball.config.y = pos.y
   },
-  [types.SET_PADDLE_POS]: (state, pos) => {
-    state.paddle.config.x = pos
+  [types.SET_PADDLE_POS]: (state, x) => {
+    state.paddle.config.x = x
   },
-  [types.BREAKS_PROJ_X]: (state, payload) => {
-    state.breaks[payload.col][payload.row].xpr = payload.status
+  [types.SET_BREAKS_POS]: (state, delta) => {
+    state.breaks.forEach((row, colIndex) => {
+      row.forEach((item, rowIndex) => {
+        item.y += delta
+      })
+    })
   },
-  [types.BREAKS_PROJ_Y]: (state, payload) => {
-    state.breaks[payload.col][payload.row].ypr = payload.status
-  },
-  [types.SET_X_REVERSE]: (state, payload) => {
-    state.breaks[payload.col][payload.row].xReverse = payload.status
-  },
-  [types.SET_Y_REVERSE]: (state, payload) => {
-    state.breaks[payload.col][payload.row].yReverse = payload.status
+  [types.BREAK_OUT]: (state, item) => {
+    state.breaks[item[0]].splice(item[1], 1)
   }
 }
