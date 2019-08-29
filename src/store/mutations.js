@@ -39,6 +39,9 @@ export const mutations = {
       }
     }
   },
+  [types.INIT_GAME_OVER]: state => {
+    // state.gameOver.config.x =
+  },
   [types.SET_BALL_POS]: (state, pos) => {
     state.ball.config.x = pos.x
     state.ball.config.y = pos.y
@@ -54,6 +57,9 @@ export const mutations = {
         state.game.lowestY = Math.max(state.game.lowestY, item.y)
       })
     })
+  },
+  [types.SET_MAIN_OPACITY]: (state, value) => {
+    state.game.layersOpacity = value
   },
   [types.BREAK_OUT]: (state, item) => {
     state.breaks[item[0]][item[1]].isInGame = false

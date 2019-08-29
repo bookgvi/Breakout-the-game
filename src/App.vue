@@ -3,10 +3,14 @@
     <v-stage
       :config="stage"
     >
-      <v-layer>
+      <v-layer
+        ref="main"
+        :config="{ opacity: game.layersOpacity }"
+      >
         <v-line :config="border" />
-      </v-layer>
-      <v-layer ref="main">
+        <v-text
+          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
+        />
         <breaks
           v-for="(col, index) in breaks"
           :key="index"
@@ -15,13 +19,12 @@
         <ball/>
         <paddle/>
       </v-layer>
-      <v-layer>
-        <v-text
-          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
-        />
-        <v-text
-          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
-        />
+      <v-layer
+        :config="{
+        opacity: Math.abs(game.layersOpacity - 1)
+        }"
+      >
+        <v-text :config="gameOver" />
       </v-layer>
     </v-stage>
   </div>
@@ -71,7 +74,8 @@ export default {
       'ball',
       'paddle',
       'breaks',
-      'breaksAttr'
+      'breaksAttr',
+      'gameOver'
     ]),
     score () {
       if (this.game.score === this.game.startBreaksCount) {
@@ -89,7 +93,8 @@ export default {
       'setPaddlePos',
       'initBreaks',
       'setBreaksPos',
-      'breakOut'
+      'breakOut',
+      'setMainOpacity'
     ]),
     mainCicle (frame) {
       let breaksY = this.breaksAttrib.dy
@@ -113,9 +118,7 @@ export default {
       if (ball.x + ball.radius >= stage.width + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
         this.ballAttr.dx = -this.ballAttr.dx
       } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
-        document.removeEventListener('keypress', this.hPause)
-        this.stopGame()
-        console.log('Неудача')
+        this.gameOverM()
         // .....................................................................................
       } else if (ball.y - ball.radius <= stage.y) {
         this.ballAttr.dy = -this.ballAttr.dy
@@ -167,9 +170,7 @@ export default {
     },
     hasBreaksPos (delta) {
       if (this.game.lowestY >= this.paddle.config.y) {
-        document.removeEventListener('keypress', this.hPause)
-        this.stopGame()
-        console.log('Неудача')
+        this.gameOverM()
       }
       this.setBreaksPos(delta)
     },
@@ -192,6 +193,22 @@ export default {
       this.isAnimStart = true
       document.addEventListener('keydown', this.hKeyDown)
       document.addEventListener('keyup', this.hKeyUp)
+    },
+    gameOverM () {
+      document.removeEventListener('keypress', this.hPause)
+      this.stopGame()
+      let i = 1
+      let initId = setInterval(() => {
+        setTimeout(() => {
+          this.setMainOpacity(i)
+          i -= 0.005
+          i = Math.max(0, i)
+        }, 50)
+        if (i <= 0) {
+          clearInterval(initId)
+        }
+      })
+      console.log('Неудача')
     },
     hPause (e) {
       if (e.code === 'Space' && this.isAnimStart) {

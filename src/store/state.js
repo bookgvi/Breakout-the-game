@@ -2,6 +2,7 @@ const offsetX = 10
 const offsetY = 10
 export const state = {
   game: {
+    layersOpacity: 1,
     score: 0,
     startBreaksCount: 0,
     endBreaksCount: 0,
@@ -48,5 +49,22 @@ export const state = {
     height: 20,
     offsetX: 35,
     offsetY: 30
+  },
+  gameOver: {
+    config: {
+      x: document.documentElement.clientWidth / 2 - 360,
+      y: document.documentElement.clientHeight / 2 - 100,
+      textAlign: 'center',
+      verticalAlign: 'center',
+      opacity: 1,
+      text: 'Game, как говорится, over...',
+      fontFamily: 'Arial',
+      fontSize: 55,
+      fill: '#880000',
+      shadowColor: '#000000',
+      shadowBlur: 10,
+      shadowOpacity: 1,
+      shadowOffset: [10, 10]
+    }
   }
 }
