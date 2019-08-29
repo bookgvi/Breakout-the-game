@@ -30,7 +30,7 @@ export const state = {
       x: 0,
       y: 0,
       radius: 5,
-      fill: '#0095ee'
+      fill: '#000000'
     }
   },
   paddle: {
@@ -45,10 +45,10 @@ export const state = {
   breaks: [],
   breaksAttr: {
     rows: 3,
-    width: 180,
+    width: 80,
     height: 20,
-    offsetX: 35,
-    offsetY: 30
+    offsetX: 1,
+    offsetY: 1
   },
   gameOver: {
     config: {

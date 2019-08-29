@@ -21,7 +21,8 @@
       </v-layer>
       <v-layer
         :config="{
-        opacity: Math.abs(game.layersOpacity - 1)
+        opacity: Math.abs(game.layersOpacity - 1),
+        fill: '#000000'
         }"
       >
         <v-text :config="gameOver" />
@@ -48,7 +49,7 @@ export default {
       dx: 0
     },
     breaksAttrib: {
-      dy: 0.15
+      dy: 1.15
     }
   }),
   created () {
@@ -169,7 +170,7 @@ export default {
       })
     },
     hasBreaksPos (delta) {
-      if (this.game.lowestY >= this.paddle.config.y) {
+      if (this.game.lowestY >= this.paddle.config.y - this.paddle.config.height) {
         this.gameOverM()
       }
       this.setBreaksPos(delta)
@@ -182,6 +183,7 @@ export default {
       this.breakOut(item)
       this.ballAttr.dy = -this.ballAttr.dy
     },
+    // ----------------------------------------------------------------------------------------
     stopGame () {
       this.anim.stop()
       this.isAnimStart = false
@@ -201,15 +203,16 @@ export default {
       let initId = setInterval(() => {
         setTimeout(() => {
           this.setMainOpacity(i)
-          i -= 0.005
+          i -= 0.05
           i = Math.max(0, i)
         }, 50)
         if (i <= 0) {
           clearInterval(initId)
         }
-      })
+      }, 50)
       console.log('Неудача')
     },
+    // ----------------------------------------------------------------------------------------
     hPause (e) {
       if (e.code === 'Space' && this.isAnimStart) {
         this.stopGame()
@@ -220,11 +223,11 @@ export default {
     hKeyDown (e) {
       if (e.code === 'KeyD' || e.code === 'ArrowRight') {
         this.paddleAttr.isPaddleMoveable = 'true'
-        this.paddleAttr.dx = 7
+        this.paddleAttr.dx = 8.5
       }
       if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
         this.paddleAttr.isPaddleMoveable = 'true'
-        this.paddleAttr.dx = -7
+        this.paddleAttr.dx = -8.5
       }
     },
     hKeyUp (e) {
