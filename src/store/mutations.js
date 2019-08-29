@@ -14,7 +14,7 @@ export const mutations = {
   },
   [types.INIT_BALL]: state => {
     state.ball.config.x = state.stage.config.x + state.ball.config.radius + 10
-    state.ball.config.y = state.stage.config.y + state.ball.config.radius + 120
+    state.ball.config.y = state.stage.config.y + state.ball.config.radius + 10
   },
   [types.INIT_PADDLE]: state => {
     state.paddle.config.x = (state.stage.config.width - state.stage.config.x) / 2 - state.paddle.config.width / 2
@@ -32,7 +32,11 @@ export const mutations = {
           y: state.breaksAttr.offsetY + (state.breaksAttr.offsetY + state.breaksAttr.height) * r,
           width: state.breaksAttr.width,
           height: state.breaksAttr.height,
-          fill: '#0093ee'
+          fill: '#0093ee',
+          xpr: false,
+          ypr: false,
+          xReverse: false,
+          yReverse: false
         })
       }
     }
@@ -43,5 +47,17 @@ export const mutations = {
   },
   [types.SET_PADDLE_POS]: (state, pos) => {
     state.paddle.config.x = pos
+  },
+  [types.BREAKS_PROJ_X]: (state, payload) => {
+    state.breaks[payload.col][payload.row].xpr = payload.status
+  },
+  [types.BREAKS_PROJ_Y]: (state, payload) => {
+    state.breaks[payload.col][payload.row].ypr = payload.status
+  },
+  [types.SET_X_REVERSE]: (state, payload) => {
+    state.breaks[payload.col][payload.row].xReverse = payload.status
+  },
+  [types.SET_Y_REVERSE]: (state, payload) => {
+    state.breaks[payload.col][payload.row].yReverse = payload.status
   }
 }

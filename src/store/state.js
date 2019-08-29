@@ -30,17 +30,17 @@ export const state = {
     config: {
       x: 0,
       y: 0,
-      width: 120,
+      width: 220,
       height: 20,
       fill: '#0095ee'
     }
   },
   breaks: [],
   breaksAttr: {
-    width: 680,
-    height: 180,
-    offsetX: 105,
-    offsetY: 15,
+    width: 80,
+    height: 120,
+    offsetX: 15,
+    offsetY: 30,
     isStatus: true
   }
 }
