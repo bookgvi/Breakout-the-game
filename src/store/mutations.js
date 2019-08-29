@@ -26,7 +26,6 @@ export const mutations = {
     const paddingX = ((state.stage.config.border + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
     let paddingY = state.breaksAttr.offsetY
     let color = '#'
-    let isInGame = true
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
       color = '#'
@@ -44,7 +43,7 @@ export const mutations = {
           fill: color,
           isInGame: true
         })
-        if ((!r && !c) || (r === rowsCount - 1 && c === columnsCount - 1)) {
+        if ((r === rowsCount - 1 && !c) || (r === rowsCount - 1 && c === columnsCount - 1)) {
           state.breaks[c][r].x = -20000
           state.breaks[c][r].y = -20000
           state.breaks[c][r].isInGame = false

@@ -20,13 +20,10 @@
           :width="stage.border"
         />
       </v-layer>
-      <v-layer
-        :config="{
-        opacity: Math.abs(game.layersOpacity - 1),
-        fill: '#000000'
-        }"
-      >
-        <v-text :config="gameOver" />
+      <v-layer>
+        <game-over :gameOverOpacity="gameOverOpacity" />
+        <win-game :gameWinOpacity="gameWinOpacity" />
+        <start-game :gameStartOpacity="gameStartOpacity" />
       </v-layer>
     </v-stage>
   </div>
@@ -38,10 +35,16 @@ import Ball from '@/components/Ball'
 import Paddle from '@/components/Paddle'
 import Breaks from '@/components/Breaks'
 import GameInfo from '@/components/GameInfo'
+import GameOver from '@/components/GameOver'
+import WinGame from '@/components/WinGame'
+import StartGame from '@/components/StartGame'
 export default {
   data: () => ({
     anim: '',
     isAnimStart: false,
+    gameOverOpacity: 0,
+    gameWinOpacity: 0,
+    gameStartOpacity: 1,
     ballAttr: {
       dx: 4,
       dy: 4
@@ -68,7 +71,10 @@ export default {
     Ball,
     Paddle,
     Breaks,
-    GameInfo
+    GameInfo,
+    GameOver,
+    WinGame,
+    StartGame
   },
   computed: {
     ...mapGetters([
@@ -79,13 +85,13 @@ export default {
       'paddle',
       'breaks',
       'breaksAttr',
-      'gameOver'
     ]),
     score () {
       if (this.game.score === this.game.startBreaksCount) {
         document.removeEventListener('keypress', this.hPause)
         this.stopGame()
         console.log('Победа...')
+        this.WinGame()
       }
       return this.game.score
     }
@@ -98,7 +104,7 @@ export default {
       'initBreaks',
       'setBreaksPos',
       'breakOut',
-      'setMainOpacity'
+      'setMainOpacity',
     ]),
     mainCicle (frame) {
       let breaksY = this.breaksAttrib.dy
@@ -201,23 +207,42 @@ export default {
       removeEventListener('keydown', this.hKeyDown)
       removeEventListener('keyup', this.hKeyUp)
     },
+    // ----------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
     startGame () {
       this.anim.start()
       this.isAnimStart = true
       document.addEventListener('keydown', this.hKeyDown)
       document.addEventListener('keyup', this.hKeyUp)
     },
+    WinGame () {
+      document.removeEventListener('keypress', this.hPause)
+      this.stopGame()
+      let i = 0
+      let initId = setInterval(() => {
+        setTimeout(() => {
+          this.setMainOpacity(Math.abs(i - 1))
+          this.gameWinOpacity = i
+          i += 0.05
+          i = Math.min(1, i)
+        }, 50)
+        if (i >= 1) {
+          clearInterval(initId)
+        }
+      }, 50)
+    },
     gameOverM () {
       document.removeEventListener('keypress', this.hPause)
       this.stopGame()
-      let i = 1
+      let i = 0
       let initId = setInterval(() => {
         setTimeout(() => {
-          this.setMainOpacity(i)
-          i -= 0.05
-          i = Math.max(0, i)
+          this.setMainOpacity(Math.abs(i - 1))
+          this.gameOverOpacity = i
+          i += 0.05
+          i = Math.min(1, i)
         }, 50)
-        if (i <= 0) {
+        if (i >= 1) {
           clearInterval(initId)
         }
       }, 50)
@@ -228,6 +253,20 @@ export default {
       if (e.code === 'Space' && this.isAnimStart) {
         this.stopGame()
       } else if (e.code === 'Space' && !this.isAnimStart) {
+        if (this.gameStartOpacity) {
+          let i = 0
+          let initId = setInterval(() => {
+            setTimeout(() => {
+              this.setMainOpacity(i)
+              this.gameStartOpacity = Math.abs(i - 1)
+              i += 0.05
+              i = Math.min(1, i)
+            }, 5)
+            if (i >= 1) {
+              clearInterval(initId)
+            }
+          }, 50)
+        }
         this.startGame()
       }
     },

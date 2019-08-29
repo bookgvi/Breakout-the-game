@@ -6,5 +6,4 @@ export const getters = {
   paddle: state => state.paddle,
   breaks: state => state.breaks,
   breaksAttr: state => state.breaksAttr,
-  gameOver: state => state.gameOver.config
 }
