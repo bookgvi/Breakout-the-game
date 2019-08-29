@@ -118,13 +118,21 @@ export default {
       let stage = this.stage
       let border = this.border
       let paddle = this.paddle.config
+      let ballXr = Math.min(ball.x + ball.radius, stage.x + stage.border)
+      let ballXl = Math.max(ball.x - ball.radius, stage.x)
+      let ballYup = Math.max(ball.y - ball.radius, stage.y)
       // ...................................... Отскок слева и справа от игрового поля
-      if (ball.x + ball.radius >= stage.border + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
+      if (ball.x + ball.radius >= stage.border + stage.x - border.strokeWidth) {
+        this.setBallPos({ x: ballXr - ball.radius, y: ball.y })
+        this.ballAttr.dx = -this.ballAttr.dx
+      } else if (ball.x <= stage.x + ball.radius - border.strokeWidth) {
+        this.setBallPos({ x: ballXl + ball.radius, y: ball.y })
         this.ballAttr.dx = -this.ballAttr.dx
       } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
         this.gameOverM()
         // .....................................................................................
       } else if (ball.y - ball.radius <= stage.y) {
+        this.setBallPos({ x: ball.x, y: ballYup + ball.radius })
         this.ballAttr.dy = -this.ballAttr.dy
       } else if (ball.y + ball.radius >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width / 4) {
         this.ballAttr.dy = -this.ballAttr.dy
