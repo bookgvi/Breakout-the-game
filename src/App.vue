@@ -29,8 +29,8 @@ export default {
     anim: '',
     isAnimStart: false,
     ballAttr: {
-      dx: 4,
-      dy: 4
+      dx: 1,
+      dy: 1
     },
     paddleAttr: {
       isPaddleMoveable: false,

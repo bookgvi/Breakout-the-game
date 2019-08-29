@@ -22,7 +22,7 @@ export const mutations = {
   },
   [types.INIT_BREAKS]: state => {
     let columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
-    let rowsCount = 1
+    let rowsCount = 2
     let padding = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
