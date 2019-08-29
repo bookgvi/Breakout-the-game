@@ -1,32 +1,29 @@
 <template>
   <v-text
     :config="{
-      x: width - 500,
-      y: 12,
-      text: 'Текущий счёт: ' + score,
+      x: width + 10,
+      y: 20,
+      text: `Текущий счёт: ${ game.score }
+              \n Общее количество блоков: ${ game.startBreaksCount }
+              \n Осталось: ${ game.endBreaksCount }`,
       fontFamily: 'Arial',
       fontSize: 25,
-      fill: '#008800'
+      fill: '#0095ee'
       }"
   />
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
-    score: Number,
     width: Number
   },
-  data: () => ({
-    config: {
-      x: width - 100,
-      y: 12,
-      text: 'Текущий счёт: ', // + this.score,
-      fontFamily: 'Arial',
-      fontSize: 25,
-      fill: '#008800'
-    }
-  })
+  computed: {
+    ...mapGetters([
+      'game'
+    ])
+  }
 }
 </script>
 

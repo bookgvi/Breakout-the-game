@@ -17,7 +17,7 @@
         <paddle/>
         <game-info
           :score="score"
-          :width="stage.width"
+          :width="stage.border"
         />
       </v-layer>
       <v-layer
@@ -51,7 +51,7 @@ export default {
       dx: 0
     },
     breaksAttrib: {
-      dy: 0.15
+      dy: 0.1
     }
   }),
   created () {
@@ -106,7 +106,7 @@ export default {
       let ballY = this.ball.config.y + this.ballAttr.dy
       let paddleX = this.paddle.config.x + this.paddleAttr.dx
       paddleX = Math.max(paddleX, this.stage.x + this.border.strokeWidth)
-      paddleX = Math.min(paddleX, this.stage.width - this.stage.x - this.border.strokeWidth - this.paddle.config.width)
+      paddleX = Math.min(paddleX, this.stage.border - this.stage.x - this.border.strokeWidth - this.paddle.config.width)
       this.setBallPos({ x: ballX, y: ballY })
       this.hasBreaksPos(breaksY)
       this.setPaddlePos(paddleX)
@@ -119,7 +119,7 @@ export default {
       let border = this.border
       let paddle = this.paddle.config
       // ...................................... Отскок слева и справа от игрового поля
-      if (ball.x + ball.radius >= stage.width + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
+      if (ball.x + ball.radius >= stage.border + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
         this.ballAttr.dx = -this.ballAttr.dx
       } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
         this.gameOverM()

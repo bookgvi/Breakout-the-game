@@ -1,4 +1,3 @@
-const offsetX = 0
 const offsetY = 10
 export const state = {
   game: {
@@ -12,8 +11,8 @@ export const state = {
     config: {
       x: 0,
       y: 0,
+      border: document.documentElement.clientWidth * 2 / 3,
       width: document.documentElement.clientWidth,
-      widt: document.documentElement.clientWidth * 2 / 3 - 2 * offsetX,
       height: document.documentElement.clientHeight - 2 * offsetY
     }
   },
@@ -38,18 +37,21 @@ export const state = {
     config: {
       x: 0,
       y: 0,
-      width: 220,
+      width: 200,
       height: 20,
-      fill: '#0095ee'
+      fill: '#0095ee',
+      shadowColor: '#000000',
+      shadowOffset: [10, 10],
+      shadowBlur: 5
     }
   },
   breaks: [],
   breaksAttr: {
     rows: 3,
-    width: 80,
+    width: 75,
     height: 20,
-    offsetX: 1,
-    offsetY: 1
+    offsetX: 2,
+    offsetY: 2
   },
   gameOver: {
     config: {

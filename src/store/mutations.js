@@ -5,9 +5,9 @@ export const mutations = {
   [types.DRAW_BORDER]: state => {
     Vue.set(state.border.config.points, '0', -state.stage.config.x + state.border.config.strokeWidth)
     Vue.set(state.border.config.points, '1', state.border.config.strokeWidth)
-    Vue.set(state.border.config.points, '2', state.stage.config.width - state.stage.config.x - state.border.config.strokeWidth)
+    Vue.set(state.border.config.points, '2', state.stage.config.border - state.stage.config.x - state.border.config.strokeWidth)
     Vue.set(state.border.config.points, '3', state.border.config.strokeWidth)
-    Vue.set(state.border.config.points, '4', state.stage.config.width - state.stage.config.x - state.border.config.strokeWidth)
+    Vue.set(state.border.config.points, '4', state.stage.config.border - state.stage.config.x - state.border.config.strokeWidth)
     Vue.set(state.border.config.points, '5', state.stage.config.height - state.stage.config.y - state.border.config.strokeWidth)
     Vue.set(state.border.config.points, '6', -state.stage.config.x + state.border.config.strokeWidth)
     Vue.set(state.border.config.points, '7', state.stage.config.height - state.stage.config.y - state.border.config.strokeWidth)
@@ -17,13 +17,13 @@ export const mutations = {
     state.ball.config.y = state.stage.config.y + state.ball.config.radius + state.breaksAttr.rows * (state.breaksAttr.height + state.breaksAttr.offsetY) + 50
   },
   [types.INIT_PADDLE]: state => {
-    state.paddle.config.x = (state.stage.config.width - state.stage.config.x) / 2 - state.paddle.config.width / 2
+    state.paddle.config.x = (state.stage.config.border - state.stage.config.x) / 2 - state.paddle.config.width / 2
     state.paddle.config.y = state.stage.config.height - state.stage.config.y - state.border.config.strokeWidth - state.paddle.config.height
   },
   [types.INIT_BREAKS]: state => {
-    const columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
+    const columnsCount = Math.floor((state.stage.config.border + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
     const rowsCount = state.breaksAttr.rows
-    const paddingX = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
+    const paddingX = ((state.stage.config.border + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
     let paddingY = state.breaksAttr.offsetY
     state.game.startBreaksCount = rowsCount * columnsCount
     let color = '#'
@@ -50,9 +50,6 @@ export const mutations = {
       }
     }
   },
-  [types.INIT_GAME_OVER]: state => {
-    // state.gameOver.config.x =
-  },
   [types.SET_BALL_POS]: (state, pos) => {
     state.ball.config.x = pos.x
     state.ball.config.y = pos.y
@@ -74,10 +71,10 @@ export const mutations = {
   },
   [types.BREAK_OUT]: (state, item) => {
     state.breaks[item[0]][item[1]].isInGame = false
-    state.game.endBreaksCount = state.game.startBreaksCount - state.game.score
     state.breaks[item[0]][item[1]].x = -20000
     state.breaks[item[0]][item[1]].y = -20000
     state.game.score++
+    state.game.endBreaksCount = state.game.startBreaksCount - state.game.score
     // state.breaks[item[0]].splice(item[1], 1)
   }
 }
