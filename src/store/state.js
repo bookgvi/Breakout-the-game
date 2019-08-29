@@ -1,4 +1,4 @@
-const offsetX = 10
+const offsetX = 300
 const offsetY = 10
 export const state = {
   game: {

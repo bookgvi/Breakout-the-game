@@ -14,28 +14,40 @@ export const mutations = {
   },
   [types.INIT_BALL]: state => {
     state.ball.config.x = state.stage.config.x + state.ball.config.radius + 10
-    state.ball.config.y = state.stage.config.y + state.ball.config.radius + state.breaksAttr.rows * (state.breaksAttr.height + state.breaksAttr.offsetY) + 20
+    state.ball.config.y = state.stage.config.y + state.ball.config.radius + state.breaksAttr.rows * (state.breaksAttr.height + state.breaksAttr.offsetY) + 50
   },
   [types.INIT_PADDLE]: state => {
     state.paddle.config.x = (state.stage.config.width - state.stage.config.x) / 2 - state.paddle.config.width / 2
     state.paddle.config.y = state.stage.config.height - state.stage.config.y - state.border.config.strokeWidth - state.paddle.config.height
   },
   [types.INIT_BREAKS]: state => {
-    let columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
-    let rowsCount = state.breaksAttr.rows
-    let padding = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
+    const columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
+    const rowsCount = state.breaksAttr.rows
+    const paddingX = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
+    let paddingY = state.breaksAttr.offsetY
     state.game.startBreaksCount = rowsCount * columnsCount
+    let color = '#'
+    console.log(color)
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
+      color = '#'
+      for (let i = 0; i < 6; i++) {
+        color += Math.floor(Math.random() * 9)
+      }
       for (let r = 0; r < rowsCount; r++) {
+        // eslint-disable-next-line no-undef
+        !r ? paddingY = state.breaksAttr.offsetY + 50 : ''
         Vue.set(state.breaks[c], r, {
-          x: padding + (state.breaksAttr.offsetX + state.breaksAttr.width) * c,
-          y: state.breaksAttr.offsetY + (state.breaksAttr.offsetY + state.breaksAttr.height) * r,
+          x: paddingX + (state.breaksAttr.offsetX + state.breaksAttr.width) * c,
+          y: paddingY + (state.breaksAttr.offsetY + state.breaksAttr.height) * r,
           width: state.breaksAttr.width,
           height: state.breaksAttr.height,
-          fill: '#0093ee',
+          fill: color,
           isInGame: true
         })
+        if ((c === 0 && r === rowsCount - 1) || (c === columnsCount - 1 && r === rowsCount - 1)) {
+          state.breaks[c].splice(r, 1)
+        }
       }
     }
   },

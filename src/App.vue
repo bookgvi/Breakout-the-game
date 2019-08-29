@@ -49,7 +49,7 @@ export default {
       dx: 0
     },
     breaksAttrib: {
-      dy: 1.15
+      dy: 0.15
     }
   }),
   created () {
