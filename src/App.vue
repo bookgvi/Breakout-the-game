@@ -95,8 +95,11 @@ export default {
       // ...................................... Отскок слева и справа от игрового поля
       if (ball.x + ball.radius >= stage.width + stage.x - border.strokeWidth || ball.x <= stage.x + ball.radius - border.strokeWidth) {
         this.ballAttr.dx = -this.ballAttr.dx
+      } else if  (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
+        this.anim.stop()
+        console.log('Неудача')
         // ...................................... Отскок сверху от игрового поля
-      } else if (ball.y - ball.radius <= stage.y) { // || ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - Отскок снизу
+      } else if (ball.y - ball.radius <= stage.y) { // ||
         this.ballAttr.dy = -this.ballAttr.dy
       } else if (ball.y + ball.radius >= paddle.y && ball.x >= paddle.x && ball.x <= paddle.x + paddle.width / 4) {
         this.ballAttr.dy = -this.ballAttr.dy
@@ -150,10 +153,20 @@ export default {
     breaksCollisionX (item) {
       this.breakOut(item)
       this.ballAttr.dx = -this.ballAttr.dx
+      if (!this.breaks.length) {
+        this.anim.stop()
+        // eslint-disable-next-line no-undef
+        сonsole.log('Пройдено...')
+      }
     },
     breaksCollisionY (item) {
       this.breakOut(item)
       this.ballAttr.dy = -this.ballAttr.dy
+      if (!this.breaks.length) {
+        this.anim.stop()
+        // eslint-disable-next-line no-undef
+        сonsole.log('Пройдено...')
+      }
     },
     hPause (e) {
       if (e.code === 'Space' && this.isAnimStart) {
