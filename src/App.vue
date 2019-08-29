@@ -148,12 +148,12 @@ export default {
           // ...
           let ballRightX = Math.max(ball.x - ball.radius, item.x + item.width)
           // ...
-          if (ball.y + ball.radius >= item.y && ball.y + ball.radius < item.y + Math.abs(this.ballAttr.dy) &&
+          if (ball.y + ball.radius > item.y && ball.y + ball.radius < item.y + Math.abs(this.ballAttr.dy) &&
             ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
             this.setBallPos({ x: ball.x, y: ballUpY - ball.radius })
             // ... Отскок вдоль оси Y сверху блока
             this.breaksCollisionY([colIndex, rowIndex])
-          } else if (ball.y - ball.radius <= item.y + item.height && ball.y - ball.radius > item.y + item.height - Math.abs(this.ballAttr.dy) &&
+          } else if (ball.y - ball.radius < item.y + item.height && ball.y - ball.radius > item.y + item.height - Math.abs(this.ballAttr.dy) &&
             ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
             this.setBallPos({ x: ball.x, y: ballDownY + ball.radius })
             // ... Отскок вдоль оси Y снизу блока
