@@ -101,38 +101,6 @@ export default {
       let ball = this.ball.config
       this.breaks.forEach((row, colIndex) => {
         row.forEach((item, rowIndex) => {
-          // if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + Math.abs(this.ballAttr.dx)) {
-          //   if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + item.height) {
-          //     this.ballAttr.dx = -this.ballAttr.dx
-          //   }
-          // }
-          // if (ball.x - ball.radius <= item.x + item.width && ball.x - ball.radius >= item.x + item.width - Math.abs(this.ballAttr.dx)) {
-          //   if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + item.height) {
-          //     this.ballAttr.dx = -this.ballAttr.dx
-          //   }
-          // }
-          // if (ball.y + ball.radius >= item.y && ball.y + ball.radius <= item.y + Math.abs(this.ballAttr.dy)) {
-          //   if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + item.width) {
-          //     this.ballAttr.dy = -this.ballAttr.dx
-          //   }
-          // }
-          if (ball.y - ball.radius <= item.y + item.height && ball.y - ball.radius >= item.y + item.height - Math.abs(this.ballAttr.dy)) {
-            if (ball.x + ball.radius >= item.x && ball.x + ball.radius <= item.x + item.width) {
-              this.ballAttr.dy = -this.ballAttr.dx
-            }
-          }
-          // if (ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width) {
-          //   // if (ball.y - ball.radius >= item.y + item.height && ball.y + ball.radius <= item.y) {
-          //     console.log ('dy')
-          //     this.ballAttr.dy = -this.ballAttr.dy
-          //   // }
-          // }
-          // // if (ball.y + ball.radius >= item.y && ball.y - ball.radius < item.y + item.height) {
-          //   if (ball.x + ball.radius >= item.x && ball.x - ball.radius <= item.x + item.width){
-          //     console.log ('dx')
-          //     this.ballAttr.dx = -this.ballAttr.dx
-          //   }
-          // }
         })
       })
     },
