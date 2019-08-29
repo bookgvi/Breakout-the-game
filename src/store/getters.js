@@ -1,4 +1,5 @@
 export const getters = {
+  game: state => state.game,
   stage: state => state.stage.config,
   border: state => state.border.config,
   ball: state => state.ball,

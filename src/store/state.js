@@ -1,6 +1,11 @@
 const offsetX = 10
 const offsetY = 10
 export const state = {
+  game: {
+    score: 0,
+    startBreaksCount: 0,
+    endBreaksCount: 0
+  },
   stage: {
     config: {
       x: 0,
@@ -38,10 +43,9 @@ export const state = {
   breaks: [],
   breaksAttr: {
     rows: 3,
-    width: 80,
+    width: 680,
     height: 20,
     offsetX: 35,
     offsetY: 30,
-    isStatus: true
   }
 }

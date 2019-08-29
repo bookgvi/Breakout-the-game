@@ -15,6 +15,11 @@
         <ball/>
         <paddle/>
       </v-layer>
+      <v-layer>
+        <v-text
+          :config="{ x: 12, y: 12, text: 'Текущий счёт: ' + score, fontFamily: 'Arial', fontSize: 25, fill: '#008800' }"
+        />
+      </v-layer>
     </v-stage>
   </div>
 </template>
@@ -29,8 +34,8 @@ export default {
     anim: '',
     isAnimStart: false,
     ballAttr: {
-      dx: 5,
-      dy: 5
+      dx: 6,
+      dy: 6
     },
     paddleAttr: {
       isPaddleMoveable: false,
@@ -43,12 +48,12 @@ export default {
   created () {
     this.drawBorder()
     this.initBreaks()
-    // ---------------------------------------
-    document.addEventListener('keypress', this.hPause)
   },
   mounted () {
     // eslint-disable-next-line no-undef
     this.anim = new Konva.Animation(this.mainCicle, this.$refs.main.getNode())
+    // ---------------------------------------
+    document.addEventListener('keypress', this.hPause)
   },
   components: {
     Ball,
@@ -57,13 +62,22 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'game',
       'stage',
       'border',
       'ball',
       'paddle',
       'breaks',
       'breaksAttr'
-    ])
+    ]),
+    score () {
+      if (this.game.score === this.game.startBreaksCount) {
+        document.removeEventListener('keypress', this.hPause)
+        this.stopGame()
+        console.log('Победа...')
+      }
+      return this.game.score
+    }
   },
   methods: {
     ...mapActions([
@@ -153,32 +167,28 @@ export default {
     breaksCollisionX (item) {
       this.breakOut(item)
       this.ballAttr.dx = -this.ballAttr.dx
-      if (!this.breaks.length) {
-        this.anim.stop()
-        // eslint-disable-next-line no-undef
-        сonsole.log('Пройдено...')
-      }
     },
     breaksCollisionY (item) {
       this.breakOut(item)
       this.ballAttr.dy = -this.ballAttr.dy
-      if (!this.breaks.length) {
-        this.anim.stop()
-        // eslint-disable-next-line no-undef
-        сonsole.log('Пройдено...')
-      }
+    },
+    stopGame () {
+      this.anim.stop()
+      this.isAnimStart = false
+      removeEventListener('keydown', this.hKeyDown)
+      removeEventListener('keyup', this.hKeyUp)
+    },
+    startGame () {
+      this.anim.start()
+      this.isAnimStart = true
+      document.addEventListener('keydown', this.hKeyDown)
+      document.addEventListener('keyup', this.hKeyUp)
     },
     hPause (e) {
       if (e.code === 'Space' && this.isAnimStart) {
-        this.anim.stop()
-        this.isAnimStart = false
-        removeEventListener('keydown', this.hKeyDown)
-        removeEventListener('keyup', this.hKeyUp)
+        this.stopGame()
       } else if (e.code === 'Space' && !this.isAnimStart) {
-        this.anim.start()
-        this.isAnimStart = true
-        document.addEventListener('keydown', this.hKeyDown)
-        document.addEventListener('keyup', this.hKeyUp)
+        this.startGame()
       }
     },
     hKeyDown (e) {

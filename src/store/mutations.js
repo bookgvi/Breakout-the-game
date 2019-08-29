@@ -24,6 +24,7 @@ export const mutations = {
     let columnsCount = Math.floor((state.stage.config.width + state.stage.config.x) / (state.breaksAttr.width + state.breaksAttr.offsetX))
     let rowsCount = state.breaksAttr.rows
     let padding = ((state.stage.config.width + state.stage.config.x) - (columnsCount * (state.breaksAttr.width + state.breaksAttr.offsetX))) / 2
+    state.game.startBreaksCount = rowsCount * columnsCount
     for (let c = 0; c < columnsCount; c++) {
       Vue.set(state.breaks, c, [])
       for (let r = 0; r < rowsCount; r++) {
@@ -33,10 +34,7 @@ export const mutations = {
           width: state.breaksAttr.width,
           height: state.breaksAttr.height,
           fill: '#0093ee',
-          xpr: false,
-          ypr: false,
-          xReverse: false,
-          yReverse: false
+          isInGame: true
         })
       }
     }
@@ -51,11 +49,17 @@ export const mutations = {
   [types.SET_BREAKS_POS]: (state, delta) => {
     state.breaks.forEach((row, colIndex) => {
       row.forEach((item, rowIndex) => {
-        item.y += delta
+        // eslint-disable-next-line no-unused-expressions
+        item.isInGame ? item.y += delta : ''
       })
     })
   },
   [types.BREAK_OUT]: (state, item) => {
-    state.breaks[item[0]].splice(item[1], 1)
+    state.breaks[item[0]][item[1]].isInGame = false
+    state.game.endBreaksCount = state.game.startBreaksCount - state.game.score
+    state.breaks[item[0]][item[1]].x = -20000
+    state.breaks[item[0]][item[1]].y = -20000
+    state.game.score++
+    // state.breaks[item[0]].splice(item[1], 1)
   }
 }
