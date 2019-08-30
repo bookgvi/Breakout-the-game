@@ -1,29 +1,12 @@
-# arcanoid_v2
+# Arcanoid (v2)
 
-## Project setup
-```
-npm install
-```
+###Упрощенная версия оригинальной игры 'BreakOut'.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- ####Реализовано с помощью Vue + Vuex + Vue-konva
+- ####По сравнению с предыдущей код был пересмотрен и переработан, был изменен алгоритм соударения элементов, изменен дизайн
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+````
+Управление:
+- кнопки со стрелками влево и вправо или кнопки 'A' и 'D'
+- запуск/пауза - клавиша "Пробел"
+````
