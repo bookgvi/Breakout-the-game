@@ -91,7 +91,7 @@ export default {
         document.removeEventListener('keypress', this.hPause)
         this.stopGame()
         console.log('Победа...')
-        this.WinGame()
+        this.finishGame('gameWinOpacity')
       }
       return this.game.score
     }
@@ -135,7 +135,7 @@ export default {
         this.setBallPos({ x: ballXl + ball.radius, y: ball.y })
         this.ballAttr.dx = -this.ballAttr.dx
       } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
-        this.gameOverM()
+        this.finishGame('gameOverOpacity')
         // .....................................................................................
       } else if (ball.y - ball.radius <= stage.y) {
         this.setBallPos({ x: ball.x, y: ballYup + ball.radius })
@@ -188,7 +188,7 @@ export default {
     },
     hasBreaksPos (delta) {
       if (this.game.lowestY >= this.paddle.config.y - this.paddle.config.height) {
-        this.gameOverM()
+        this.finishGame('gameOverOpacity')
       }
       this.setBreaksPos(delta)
     },
@@ -215,30 +215,14 @@ export default {
       document.addEventListener('keydown', this.hKeyDown)
       document.addEventListener('keyup', this.hKeyUp)
     },
-    WinGame () {
+    finishGame (someOpacity) {
       document.removeEventListener('keypress', this.hPause)
       this.stopGame()
       let i = 0
       let initId = setInterval(() => {
         setTimeout(() => {
           this.setMainOpacity(Math.abs(i - 1))
-          this.gameWinOpacity = i
-          i += 0.05
-          i = Math.min(1, i)
-        }, 50)
-        if (i >= 1) {
-          clearInterval(initId)
-        }
-      }, 50)
-    },
-    gameOverM () {
-      document.removeEventListener('keypress', this.hPause)
-      this.stopGame()
-      let i = 0
-      let initId = setInterval(() => {
-        setTimeout(() => {
-          this.setMainOpacity(Math.abs(i - 1))
-          this.gameOverOpacity = i
+          this[someOpacity] = i
           i += 0.05
           i = Math.min(1, i)
         }, 50)

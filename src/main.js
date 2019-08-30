@@ -5,7 +5,7 @@ import VueKonva from 'vue-konva'
 
 Vue.use(VueKonva)
 
-new Vue({
+var vm = new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
