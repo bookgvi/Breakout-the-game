@@ -1,4 +1,5 @@
 import store from '../store'
+import { game } from '@/modules/gameUtilities'
 
 export const ballCollisions = {
   withBordersAndPaddle () {
@@ -17,7 +18,7 @@ export const ballCollisions = {
       store.dispatch('setBallPos', { x: ballXl + ball.radius, y: ball.y })
       this.ballAttr.dx = -this.ballAttr.dx
     } else if (ball.y + ball.radius >= stage.y + stage.height - border.strokeWidth) { // - нет отскока снизу
-      this.finishGame('gameOverOpacity')
+      game.finishGame.call(this, 'gameOverOpacity')
       // .....................................................................................
     } else if (ball.y - ball.radius <= stage.y) {
       store.dispatch('setBallPos', { x: ball.x, y: ballYup + ball.radius })

@@ -39,6 +39,7 @@ import GameOver from '@/components/GameOver'
 import WinGame from '@/components/WinGame'
 import StartGame from '@/components/StartGame'
 import { ballCollisions } from '@/modules/BallCollisions'
+import { game } from '@/modules/gameUtilities'
 export default {
   data: () => ({
     anim: '',
@@ -90,9 +91,9 @@ export default {
     score () {
       if (this.game.score === this.game.startBreaksCount) {
         document.removeEventListener('keypress', this.hPause)
-        this.stopGame()
+        game.stopGame.call(this)
         console.log('Победа...')
-        this.finishGame('gameWinOpacity')
+        game.finishGame.call(this, 'gameWinOpacity')
       }
       return this.game.score
     }
@@ -122,7 +123,7 @@ export default {
     },
     hasBreaksPos (delta) {
       if (this.game.lowestY >= this.paddle.config.y - this.paddle.config.height) {
-        this.finishGame('gameOverOpacity')
+        game.finishGame.call(this, 'gameOverOpacity')
       }
       this.setBreaksPos(delta)
     },
@@ -134,42 +135,9 @@ export default {
       this.breakOut(item)
       this.ballAttr.dy = -this.ballAttr.dy
     },
-    // ----------------------------------------------------------------------------------------
-    stopGame () {
-      this.anim.stop()
-      this.isAnimStart = false
-      removeEventListener('keydown', this.hKeyDown)
-      removeEventListener('keyup', this.hKeyUp)
-    },
-    // ----------------------------------------------------------------------------------------
-    // ----------------------------------------------------------------------------------------
-    startGame () {
-      this.anim.start()
-      this.isAnimStart = true
-      document.addEventListener('keydown', this.hKeyDown)
-      document.addEventListener('keyup', this.hKeyUp)
-    },
-    finishGame (someOpacity) {
-      document.removeEventListener('keypress', this.hPause)
-      this.stopGame()
-      let i = 0
-      let initId = setInterval(() => {
-        setTimeout(() => {
-          this.setMainOpacity(Math.abs(i - 1))
-          this[someOpacity] = i
-          i += 0.05
-          i = Math.min(1, i)
-        }, 50)
-        if (i >= 1) {
-          clearInterval(initId)
-        }
-      }, 50)
-      console.log('Неудача')
-    },
-    // ----------------------------------------------------------------------------------------
     hPause (e) {
       if (e.code === 'Space' && this.isAnimStart) {
-        this.stopGame()
+        game.stopGame.call(this)
       } else if (e.code === 'Space' && !this.isAnimStart) {
         if (this.gameStartOpacity) {
           let i = 0
@@ -185,7 +153,7 @@ export default {
             }
           }, 50)
         }
-        this.startGame()
+        game.startGame.call(this)
       }
     },
     hKeyDown (e) {
