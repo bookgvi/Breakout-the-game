@@ -38,8 +38,8 @@ import GameInfo from '@/components/GameInfo'
 import GameOver from '@/components/GameOver'
 import WinGame from '@/components/WinGame'
 import StartGame from '@/components/StartGame'
-import { ballCollisions } from '@/modules/BallCollisions'
 import { game } from '@/modules/gameUtilities'
+import { ballCollisions } from '@/modules/BallCollisions'
 export default {
   data: () => ({
     anim: '',
