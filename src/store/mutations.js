@@ -33,7 +33,7 @@ export const mutations = {
         color += Math.floor(Math.random() * 9)
       }
       for (let r = 0; r < rowsCount; r++) {
-        // eslint-disable-next-line no-undef
+        // eslint-disable-next-line no-undef,no-unused-expressions
         !r ? paddingY = state.breaksAttr.offsetY + 50 : ''
         Vue.set(state.breaks[c], r, {
           x: paddingX + (state.breaksAttr.offsetX + state.breaksAttr.width) * c,

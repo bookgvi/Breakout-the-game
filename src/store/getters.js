@@ -5,5 +5,5 @@ export const getters = {
   ball: state => state.ball,
   paddle: state => state.paddle,
   breaks: state => state.breaks,
-  breaksAttr: state => state.breaksAttr,
+  breaksAttr: state => state.breaksAttr
 }

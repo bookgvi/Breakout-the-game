@@ -84,7 +84,7 @@ export default {
       'ball',
       'paddle',
       'breaks',
-      'breaksAttr',
+      'breaksAttr'
     ]),
     score () {
       if (this.game.score === this.game.startBreaksCount) {
@@ -104,7 +104,7 @@ export default {
       'initBreaks',
       'setBreaksPos',
       'breakOut',
-      'setMainOpacity',
+      'setMainOpacity'
     ]),
     mainCicle (frame) {
       let breaksY = this.breaksAttrib.dy

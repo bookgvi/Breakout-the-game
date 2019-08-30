@@ -23,7 +23,7 @@ export default {
   },
   data: () => ({
     x: document.documentElement.clientWidth / 2 - 360,
-    y: document.documentElement.clientHeight / 2 - 100,
+    y: document.documentElement.clientHeight / 2 - 100
   })
 }
 </script>
